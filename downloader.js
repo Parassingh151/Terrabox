@@ -4,7 +4,8 @@ async function getStreamUrl(teraboxLink) {
   let streamUrl = null;
 
   const browser = await chromium.launch({
-    headless: true
+    headless: true,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"]
   });
 
   const context = await browser.newContext();
@@ -23,7 +24,7 @@ async function getStreamUrl(teraboxLink) {
       waitUntil: "domcontentloaded"
     });
 
-    // accept cookies if shown
+    // accept cookies if present
     try {
       await page.click('button:has-text("Accept All")', { timeout: 5000 });
     } catch {}
